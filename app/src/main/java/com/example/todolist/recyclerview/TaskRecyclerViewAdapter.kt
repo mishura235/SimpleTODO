@@ -2,6 +2,7 @@ package com.example.todolist.recyclerview
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,8 +37,9 @@ class TaskRecyclerViewAdapter (val context: Context): RecyclerView.Adapter<TaskR
         holder.taskParagraph.text = tasks[position].paragraph
         holder.taskText.text = tasks[position].text
         holder.taskCardView.setOnClickListener {
+            Log.d("FUCKING RCADAPTER", "onBindViewHolder: $tasks")
             val intent = Intent(context,TaskEditActivity::class.java)
-            intent.putExtra(TaskEditActivity.TASK_ID,position.toLong()+1)
+            intent.putExtra(TaskEditActivity.TASK_ID,tasks[position].id?.toLong())
             context.startActivity(intent)
         }
     }

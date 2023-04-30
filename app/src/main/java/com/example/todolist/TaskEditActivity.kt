@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.todolist.viewmodel.TaskEditViewModel
 
@@ -29,10 +30,12 @@ class TaskEditActivity : AppCompatActivity() {
         deleteButton = findViewById(R.id.delete_button)
 
         val taskId = intent.getLongExtra(TASK_ID,0)
-        val viewModel= ViewModelProvider(this,TaskEditViewModel.TaskEditViewModelFactory(this,taskId))[TaskEditViewModel::class.java]
+        val viewModel by viewModels<TaskEditViewModel>()
 
+        viewModel.getTask(taskId)
 
         viewModel.task.observe(this) {
+            Log.d("FUCKING EDIT TASK", "onCreate: $it ${viewModel.task.value} , $taskId")
             editText.setText(it.text)
             editParagraph.setText(it.paragraph)
         }
