@@ -7,15 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.TaskEditActivity
 import com.example.todolist.database.Task
+import com.example.todolist.viewmodel.TaskViewModel
 
 class TaskRecyclerViewAdapter (val context: Context): RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskViewHolder>() {
 
     var tasks:List<Task> = listOf()
+
+
     class TaskViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView) {
         val taskCardView:CardView = itemView.findViewById(R.id.task_card_view)
         val taskParagraph:TextView = itemView.findViewById(R.id.task_paragraph)

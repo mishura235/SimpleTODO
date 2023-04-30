@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         taskRecyclerView.layoutManager = LinearLayoutManager(applicationContext,LinearLayoutManager.VERTICAL,false)
         taskRecyclerView.adapter = adapter
         viewModel.tasksList.observe(this, Observer {
-            adapter.tasks = viewModel.tasksList.value!!
+            adapter.tasks = viewModel.tasksList.value ?: listOf()
             adapter.notifyDataSetChanged()
         })
 
@@ -59,6 +59,14 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         val viewModel by viewModels<TaskViewModel>()
         viewModel.loadAllTasks()
+        Log.d("MainACtivity", "onStart: ")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val viewModel by viewModels<TaskViewModel>()
+        viewModel.loadAllTasks()
+        Log.d("MainACtivity", "onRestart: ")
     }
 
 
