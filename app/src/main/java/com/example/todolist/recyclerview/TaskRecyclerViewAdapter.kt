@@ -1,16 +1,20 @@
-package com.example.todolist
+package com.example.todolist.recyclerview
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.todolist.R
+import com.example.todolist.TaskEditActivity
+import com.example.todolist.database.Task
 
-class TaskRecyclerViewAdapter (
-    private val tasks:List<Task>
-        ): RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskViewHolder>() {
+class TaskRecyclerViewAdapter (val context: Context): RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskViewHolder>() {
 
+    var tasks:List<Task> = listOf()
     class TaskViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView) {
         val taskCardView:CardView = itemView.findViewById(R.id.task_card_view)
         val taskParagraph:TextView = itemView.findViewById(R.id.task_paragraph)
@@ -32,7 +36,9 @@ class TaskRecyclerViewAdapter (
         holder.taskParagraph.text = tasks[position].paragraph
         holder.taskText.text = tasks[position].text
         holder.taskCardView.setOnClickListener {
-            //TODO окно редактрования задачи
+            val intent = Intent(context,TaskEditActivity::class.java)
+            intent.putExtra(TaskEditActivity.TASK_ID,position.toLong()+1)
+            context.startActivity(intent)
         }
     }
 
