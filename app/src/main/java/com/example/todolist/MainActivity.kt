@@ -38,20 +38,20 @@ class MainActivity : AppCompatActivity() {
         adapter = TaskRecyclerViewAdapter(this)
         taskRecyclerView.layoutManager = LinearLayoutManager(applicationContext,LinearLayoutManager.VERTICAL,false)
         taskRecyclerView.adapter = adapter
+
         viewModel.tasksList.observe(this, Observer {
-            adapter.tasks = viewModel.tasksList.value ?: listOf()
-            adapter.notifyDataSetChanged()
+            adapter.setData(viewModel.tasksList.value ?: listOf())
         })
 
         createNewTask.setOnClickListener{
-            CoroutineScope(Dispatchers.Main).launch {
-            val idChannel = Channel<Long>()
-            viewModel.createTask(channel = idChannel)
-            val id = idChannel.receive()
-            val intent = Intent(applicationContext,TaskEditActivity::class.java)
-            intent.putExtra(TaskEditActivity.TASK_ID, id)
-            startActivity(intent)
-        }
+                CoroutineScope(Dispatchers.Main).launch {
+                val idChannel = Channel<Long>()
+                viewModel.createTask(channel = idChannel)
+                val id = idChannel.receive()
+                val intent = Intent(applicationContext,TaskEditActivity::class.java)
+                intent.putExtra(TaskEditActivity.TASK_ID, id)
+                startActivity(intent)
+            }
         }
     }
 

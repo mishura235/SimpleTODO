@@ -35,7 +35,6 @@ class TaskEditActivity : AppCompatActivity() {
         viewModel.getTask(taskId)
 
         viewModel.task.observe(this) {
-            Log.d("FUCKING EDIT TASK", "onCreate: $it ${viewModel.task.value} , $taskId")
             editText.setText(it.text)
             editParagraph.setText(it.paragraph)
         }

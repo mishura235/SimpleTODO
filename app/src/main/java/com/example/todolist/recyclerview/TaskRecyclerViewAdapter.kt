@@ -2,18 +2,16 @@ package com.example.todolist.recyclerview
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.TaskEditActivity
 import com.example.todolist.database.Task
-import com.example.todolist.viewmodel.TaskViewModel
 
 class TaskRecyclerViewAdapter (val context: Context): RecyclerView.Adapter<TaskRecyclerViewAdapter.TaskViewHolder>() {
 
@@ -41,11 +39,17 @@ class TaskRecyclerViewAdapter (val context: Context): RecyclerView.Adapter<TaskR
         holder.taskParagraph.text = tasks[position].paragraph
         holder.taskText.text = tasks[position].text
         holder.taskCardView.setOnClickListener {
-            Log.d("FUCKING RCADAPTER", "onBindViewHolder: $tasks")
             val intent = Intent(context,TaskEditActivity::class.java)
             intent.putExtra(TaskEditActivity.TASK_ID,tasks[position].id?.toLong())
             context.startActivity(intent)
         }
+    }
+
+    fun setData(newList: List<Task>){
+        val diffutil = TaskDiffUtil(tasks,newList)
+        val diffResult = DiffUtil.calculateDiff(diffutil)
+        tasks = newList
+        diffResult.dispatchUpdatesTo(this)
     }
 
 }
